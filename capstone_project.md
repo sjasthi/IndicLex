@@ -85,8 +85,8 @@ Students must design normalized MySQL tables.
 **Core Tables:**
 1. dictionaries
 2. dictionary_entries
-3. admin_users
-
+3. users
+4. preferences
 ---
 
 ## 5. Search Features
@@ -97,7 +97,7 @@ Students must design normalized MySQL tables.
 - Substring matching
 - Search within a dictionary
 - Search across all dictionaries
-- Multi-language direction selection
+- Word Length Matching  (Integration with http://ananya.telugupuzzles.com)
 
 ---
 
@@ -106,13 +106,14 @@ Students must design normalized MySQL tables.
 - Fully responsive design
 - Bootstrap-based UI
 - Clean layouts
+- Support for JQuery datatables (for the admin)
 - Intuitive navigation
 - Mobile & desktop support
 
 **Required Pages:**
 
 **Public:**
-- Home Page
+- Home Page with Hero section
 - Dictionary Catalog
 - Search Interface
 - Search Results
@@ -121,6 +122,10 @@ Students must design normalized MySQL tables.
 - Login
 - Dashboard
 - Dictionary Manager
+- CRUD support for dictionary entries
+- CRUD support for Dictionaries
+- Uploading a dictionary (excel file)
+- Exporting of a dictionary (into HTML)
 - Entry Manager
 - Reports Page
 - Import / Export Page
