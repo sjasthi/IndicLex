@@ -18,6 +18,9 @@ Students will design, implement, and deploy a system that supports:
 - Admin dashboards
 - Reporting & analytics
 - Responsive user interface
+- User preferences with cookie-based persistence
+- Dictionary comparison and data integrity tools
+- REST API for dictionary search
 
 ---
 
@@ -32,6 +35,7 @@ Students will design, implement, and deploy a system that supports:
 
 **Backend:**
 - PHP
+- REST API (PHP-based)
 
 **Database:**
 - MySQL
@@ -53,6 +57,10 @@ Students will design, implement, and deploy a system that supports:
   - Suffix
   - Substring
 - View search results with translations
+- Set personal preferences (saved via cookies):
+  - Default dictionary
+  - Results per page
+  - Theme (light/dark)
 
 #### B. Admin User
 - Secure login system
@@ -66,6 +74,13 @@ Students will design, implement, and deploy a system that supports:
   - Edit entries
   - Delete entries
   - Bulk import & export
+- Dictionary comparison:
+  - Select two dictionaries for side-by-side comparison
+  - View shared entries, unique entries, and overlapping translations
+- Data integrity & validation:
+  - Select a dictionary and run integrity checks
+  - Identify duplicate entries within a dictionary
+  - Identify potentially missing entries by comparing against other dictionaries
 - Reporting dashboard:
   - Total number of dictionaries
   - Word count per dictionary
@@ -87,6 +102,22 @@ Students must design normalized MySQL tables.
 2. dictionary_entries
 3. users
 4. preferences
+
+### 4.1 Preferences Table
+
+The `preferences` table stores system-level default preferences. These defaults apply to all users unless overridden.
+
+**System-level preferences include:**
+- Default dictionary (the dictionary pre-selected on the search page)
+- Results per page (default number of search results displayed)
+- Theme (light or dark mode)
+
+**Preference resolution order (highest to lowest priority):**
+1. **User cookie** – If a user has set a preference via the UI, it is stored in a browser cookie and takes precedence.
+2. **System default** – If no cookie is present, the system default from the `preferences` table is used.
+
+The application must read cookies on page load and apply them before rendering. If no cookie exists for a given preference, the system default is fetched from the database and applied.
+
 ---
 
 ## 5. Search Features
@@ -101,7 +132,62 @@ Students must design normalized MySQL tables.
 
 ---
 
-## 6. UI / UX Requirements
+## 6. REST API
+
+The application must expose a simple REST API endpoint for dictionary search. This allows external tools or future front-end clients to query the dictionary data programmatically.
+
+### 6.1 Endpoint
+
+**GET** `/api/search`
+
+### 6.2 Query Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `q`       | Yes      | The search term |
+| `dict`    | No       | Dictionary identifier (e.g., `telugu-english`). If omitted, searches across all dictionaries. |
+| `mode`    | No       | Search mode: `exact`, `prefix`, `suffix`, `substring`. Defaults to `exact`. |
+
+### 6.3 Example Requests
+
+```
+GET /api/search?q=namaskar&dict=telugu-english
+GET /api/search?q=pra&mode=prefix
+GET /api/search?q=tion&dict=sanskrit-english&mode=suffix
+```
+
+### 6.4 Response Format
+
+The API must return results in JSON format:
+
+```json
+{
+  "status": "success",
+  "query": "namaskar",
+  "dictionary": "telugu-english",
+  "mode": "exact",
+  "count": 2,
+  "results": [
+    {
+      "word": "namaskar",
+      "translation": "greeting",
+      "dictionary": "telugu-english"
+    }
+  ]
+}
+```
+
+### 6.5 Error Handling
+
+The API must return appropriate HTTP status codes and JSON error messages:
+- `200` – Success
+- `400` – Missing or invalid parameters
+- `404` – No results found
+- `500` – Server error
+
+---
+
+## 7. UI / UX Requirements
 
 - Fully responsive design
 - Bootstrap-based UI
@@ -109,6 +195,7 @@ Students must design normalized MySQL tables.
 - Support for JQuery datatables (for the admin)
 - Intuitive navigation
 - Mobile & desktop support
+- Light/dark theme toggle (persisted via cookies)
 
 **Required Pages:**
 
@@ -117,6 +204,7 @@ Students must design normalized MySQL tables.
 - Dictionary Catalog
 - Search Interface
 - Search Results
+- Preferences Panel (accessible from navigation; allows users to set default dictionary, results per page, and theme)
 
 **Admin:**
 - Login
@@ -127,22 +215,28 @@ Students must design normalized MySQL tables.
 - Uploading a dictionary (excel file)
 - Exporting of a dictionary (into HTML)
 - Entry Manager
+- Dictionary Comparison Page (select two dictionaries, view side-by-side analysis)
+- Data Integrity & Validation Page (select a dictionary, view duplicate and missing entry reports)
 - Reports Page
 - Import / Export Page
 
 ---
 
-## 7. Advanced Features
+## 8. Advanced Features
 
 - Autocomplete search
 - Visualizations (Bar Charts, Pie Charts)
 - Role-based authorization
 - Performance optimization
 - Bulk uploads with validation
+- REST API for external search access
+- Cookie-based preference management with system default fallback
+- Cross-dictionary comparison and gap analysis
+- Data integrity checks with duplicate detection
 
 ---
 
-## 8. Deliverables
+## 9. Deliverables
 
 - Fully functional web application
 - Source code (GitHub)
@@ -150,7 +244,7 @@ Students must design normalized MySQL tables.
 - Self-Evaluation Spreadsheet (from each team members)
 ---
 
-## 9. Learning Outcomes
+## 10. Learning Outcomes
 
 - Full-stack development mastery
 - Database schema design
@@ -158,3 +252,6 @@ Students must design normalized MySQL tables.
 - Search algorithm implementation
 - Professional UI engineering
 - Real-world application experience
+- REST API design and implementation
+- Client-side state management with cookies
+- Data quality and integrity analysis
