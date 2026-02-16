@@ -1,9 +1,9 @@
 # ICS325 – Capstone Project
 ## IndicLex – Multilingual Dictionary Management & Search Platform
 
-##**Course:** ICS325 – Web Application Development
+### **Course:** ICS325 – Web Application Development
 
-###**Project Name:** IndicLex – Multilingual Dictionary Management & Search Platform
+### **Project Name:** IndicLex – Multilingual Dictionary Management & Search Platform
 
 ---
 
