@@ -11,8 +11,9 @@
 --                          lang_3 is NULL when type = 'bilingual'
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS indiclex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE indiclex;
+-- Change to your database name
+-- CREATE DATABASE IF NOT EXISTS indiclex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE indiclex;
 
 -- ============================================================
 -- TABLE: users
